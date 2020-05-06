@@ -17,7 +17,7 @@ function post(data) {
 
 
 //this function listens for a file upload and sends the data then downloads it when its done
-document.getElementById("file").onchange = async function () {
+document.getElementById("file").onchange = function () {
 	console.log("got file");
   var $form = document.getElementById("uploadForm")
   var file = document.getElementById('file').files[0];
@@ -26,7 +26,7 @@ document.getElementById("file").onchange = async function () {
   fileSize = file.size / 1000000;
   console.log("file size", fileSize);
 
-  res = await post(formData);
+  res = post(formData);
 
   console.log(res);
 	
