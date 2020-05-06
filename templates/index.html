@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+
+<html style="height: 100%; width: 100%">
+
+<head>
+
+	<title>Mikes Site</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta charset="utf-8" />
+
+	<script src="{{ url_for('static', filename="jquery/jQuery.js")}}"></script>
+
+</head>
+
+<body style=" height: 100%; margin: 0; padding: 0 ">
+
+
+	<form id='uploadForm'>
+		<input id='file' type="file" name="file" autocomplete="off" accept=".csv" required>
+	</form>
+
+</body>
+
+<script src="{{ url_for('static', filename="js/main.js")}}"></script>
