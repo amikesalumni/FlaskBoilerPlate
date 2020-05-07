@@ -1,22 +1,29 @@
 from flask import Flask, Response, render_template, request
 import webbrowser
+import pandas as pd
 
 app = Flask(__name__)
 
 # methods = post means it expects to receive something
 # get means its asking for something
+# how is what is returned by this function related to the jscript? 
+# to publish changes to github
+# git add file
+# git commit -m "describe changes you are making" .
+# git push
 @app.route('/myFunc', methods=['POST'])
 def myFunc():
 	input = request.files['file']
-	#do stuff
+	#data = pd.read_csv(input,header=2,dtype='a',names=['time','intensity'],index_col=False)
 	#csv = input
+	# will have to do some funky stuff to get plots to show w/ matplotlib or something else
+	# altair python library to use vegalite which is useful for visulation
 	csv = '1,2,3\n4,5,6\n' #put csv file here
 	return Response(
         csv,
         mimetype="text/csv",
         headers={"Content-disposition":
                  "attachment; filename=fileName.csv"})
-
 
 
 @app.route('/')

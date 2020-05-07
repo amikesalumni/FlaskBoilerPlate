@@ -1,10 +1,11 @@
 
 //this function sends data to the python code
 function post(data) {
+  // performs an asynchronous http request
   return $.ajax({
-    url: "/myFunc",
-    type: "POST",
-    data: data,
+    url: "/myFunc", // location to which the request is sent
+    type: "POST", // requests that the website accepts data
+    data: data, // the data for the request to accept
     processData: false,
     contentType: false,
     complete: function () {
