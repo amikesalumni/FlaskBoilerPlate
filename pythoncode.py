@@ -149,7 +149,7 @@ def parameters():
 
 @app.route('/result', methods=['POST'])
 def result():
-	result = 35
+	result = 45
 	print("this fires")
 	return render_template('index.html',text=result)
 
