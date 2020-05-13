@@ -17,9 +17,34 @@
 
 
 	<form id='uploadForm'>
-		<input id='file' type="file" name="file" autocomplete="off" accept=".csv" required>
+		<input id='file' type="file" name="file" autocomplete="off" accept=".csv" required><br>
 	</form>
 
+	<form id='parameterupdate'>
+		<label for="TPDs">TPD Start Time</label><br>
+		<input type="text" id="TPDs" name="TPDs" value="0"><br>
+		<label for="Ars">Ar Start Time</label><br>
+		<input type="text" id="Ars" name="Ars" value="0"><br>
+		<label for="Are">Ar End Time</label><br>
+		<input type="text" id="Are" name="Are" value="0"><br>
+		<label for="wf">Water Correction</label><br>
+		<input type="text" id="wf" name="wf" value="0"><br>
+		<label for="SM">Sample Mass</label><br>
+		<input type="text" id="SM" name="SM" value="0"><br>
+		<label for="RF">Response Factor</label><br>
+		<input type="text" id="RF" name="RF" value="0"><br>  
+		<label for="MA">Moles Ar</label><br>
+		<input type="text" id="MA" name="MA" value="0"><br>
+		<label for="SA">Si/Al</label><br>
+		<input type="text" id="SA" name="SA" value="0"><br>
+		<input type="button" id="update" name="update" value="update"><br>
+		<input type="button" id="test" name="test" value="test">
+	</form>
+	
 </body>
 
+You said: {{ text }}
+
 <script src="{{ url_for('static', filename="js/main.js")}}"></script>
+
+<!-- <p>{{ output }}</p> -->
