@@ -1,34 +1,7 @@
-
 //this function sends data to the python code
 function post(data) {
-   return $.ajax({
-    url: "/myFunc", // location to which the request is sent
-    type: "POST", // requests that the website accepts data
-    data: data, // the data for the request to accept
-    processData: false,
-    contentType: false,
-    complete: function () {
-      console.log("done")
-    }
-  });
-}
-
-//this function listens for a file upload and sends the data then downloads it when its done
-document.getElementById("file").onchange = function () {
-	console.log("file received");
-  var $form = document.getElementById("uploadForm");
-  var file = document.getElementById('file').files[0];
-  var formData = new FormData();
-  formData.append('file', file);
-  fileSize = file.size / 1000000;
-  console.log("file size", fileSize);
-  res = post(formData);
-};
-
-//this function sends data to the python code
-function param(data) {
   return $.ajax({
-   url: "/parameters", // location to which the request is sent
+   url: "/fileupload", // location to which the request is sent
    type: "POST", // requests that the website accepts data
    data: data, // the data for the request to accept
    processData: false,
@@ -39,26 +12,66 @@ function param(data) {
  });
 }
 
-// this function will ultimately cause the TPD functions to refire when parameters are changed
-document.getElementById("update").onclick = function (){
-  console.log("update fired");
+//this function listens for a file upload and sends the data then downloads it when its done
+document.getElementById("file").onchange = function () {
+  console.log("file received");
   var formData = new FormData();
-  formData.append('TPDs',document.getElementById("TPDs").value)
-  formData.append('Ars',document.getElementById("Ars").value)
-  formData.append('Are',document.getElementById("Are").value)
-  formData.append('wf',document.getElementById("wf").value)
-  formData.append('SM',document.getElementById("SM").value)
-  formData.append('RF',document.getElementById("RF").value)
-  formData.append('MA',document.getElementById("MA").value)
-  formData.append('SA',document.getElementById("SA").value)
-  pass = param(formData)
-  console.log("update complete");
-}
+  var file = document.getElementById('file').files[0];
+  formData.append('file', file);
+  fileSize = file.size / 1000000;
+  console.log("file size", fileSize);
+  res = post(formData);
+};
 
-function result() {
+// place in ajax request to get text to update on webpage
+/*
+
+*/
+
+function get_params() {
+  var formData = new FormData();
+  formData.append('file', document.getElementById('file').files[0]);
+  formData.append('TPDs',document.getElementById("TPDs").value);
+  formData.append('TPDe',document.getElementById("TPDe").value);
+  formData.append('Ars',document.getElementById("Ars").value);
+  formData.append('Are',document.getElementById("Are").value);
+  formData.append('wf',document.getElementById("wf").value);
+  formData.append('SM',document.getElementById("SM").value);
+  formData.append('RF',document.getElementById("RF").value);
+  formData.append('MA',document.getElementById("MA").value);
+  formData.append('SA',document.getElementById("SA").value);
+  return formData
+};
+
+document.getElementById("plot").onclick = function () {
+  console.log("plot fired");
+  parameters = get_params();
+  plotit = plot(parameters);
+};
+
+
+function plot(data){
   return $.ajax({
-    url: "/result",
+    url: "/plot",
     type: "POST",
+    cache: false,
+    data: data,
+    success: function(spec) {
+      var splitter = spec.split('} {');
+      var i;
+      for (i=0; i<splitter.length; i++){
+        if (i==0){
+          graph = JSON.parse(splitter[i]+'}')
+        } else if (i==splitter.length-1){
+          graph = JSON.parse('{'+splitter[i])
+        } else {
+          graph = JSON.parse('{'+splitter[i]+'}')
+        }
+        vegaEmbed("#vis"+i.toString(), graph)
+        .then(result => console.log(result))
+        .catch(console.warn);
+      }
+    },
     processData: false,
     contentType: false,
     complete: function () {
@@ -67,26 +80,33 @@ function result() {
   });
 }
 
-document.getElementById("test").onclick = function () {
-  console.log("test fired")
-  testit = result()
-  console.log("test complete")
-}
-/*
-//this function sends data to the python code
-function rect() {
+document.getElementById("calculate").onclick = function () {
+  console.log("calculate fired");
+  parameters = get_params();
+  plotit = calculate(parameters);
+};
+
+function calculate(data){
   return $.ajax({
-   url: "/counter", // location to which the request is sent
-   type: "GET", // requests that the website accepts data
-   data: data, // the data for the request to accept
-   processData: false,
-   contentType: false,
-   complete: function () {
-     console.log("done")
-   }
- });
+    url: "/calculate",
+    type: "POST",
+    cache: false,
+    data: data,
+    success: function(something) {
+      document.getElementById("p1").innerHTML = something
+      console.log("this worked")
+    },
+    processData: false,
+    contentType: false,
+    complete: function () {
+      console.log("done")
+    }
+  });
 }
-*/
+
+
+
+
 
 /*
 //this will download the file

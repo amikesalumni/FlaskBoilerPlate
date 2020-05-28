@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 
-
 <html style="height: 100%; width: 100%">
 
 <head>
@@ -10,41 +9,90 @@
 	<meta charset="utf-8" />
 
 	<script src="{{ url_for('static', filename="jquery/jQuery.js")}}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+	<style>
+		input {
+		  display: block;
+		  margin: 0px 0px 15px;
+		}
+		label {
+		  display: block
+		}
+		.result{
+			outline-style: solid;
+			outline-width: 1px;
+			outline-color: blue;
+			outline-offset: 10px;
 
-</head>
-
-<body style=" height: 100%; margin: 0; padding: 0 ">
-
-
-	<form id='uploadForm'>
-		<input id='file' type="file" name="file" autocomplete="off" accept=".csv" required><br>
-	</form>
-
-	<form id='parameterupdate'>
-		<label for="TPDs">TPD Start Time</label><br>
-		<input type="text" id="TPDs" name="TPDs" value="0"><br>
-		<label for="Ars">Ar Start Time</label><br>
-		<input type="text" id="Ars" name="Ars" value="0"><br>
-		<label for="Are">Ar End Time</label><br>
-		<input type="text" id="Are" name="Are" value="0"><br>
-		<label for="wf">Water Correction</label><br>
-		<input type="text" id="wf" name="wf" value="0"><br>
-		<label for="SM">Sample Mass</label><br>
-		<input type="text" id="SM" name="SM" value="0"><br>
-		<label for="RF">Response Factor</label><br>
-		<input type="text" id="RF" name="RF" value="0"><br>  
-		<label for="MA">Moles Ar</label><br>
-		<input type="text" id="MA" name="MA" value="0"><br>
-		<label for="SA">Si/Al</label><br>
-		<input type="text" id="SA" name="SA" value="0"><br>
-		<input type="button" id="update" name="update" value="update"><br>
-		<input type="button" id="test" name="test" value="test">
-	</form>
+		}
+		* {
+		  box-sizing: border-box;
+		}
+		/* Set additional styling options for the columns*/
+		.column {
+		  float: left;
+		  width: 15%;
+		}
+		
+		.column2 {
+			float: left;
+			width: 75%
+		}
+		.row:after {
+		  content: "";
+		  display: table;
+		  clear: both;
+		}
+	  </style>
+		
+	</head>
 	
-</body>
+	<body style=" height: 100%; margin: 35px 10px; padding: 0 ">
+		<div class='row'>
+			<div class='column'>
+				<form id='uploadForm'>
+					<input id='file' type="file" name="file" autocomplete="off" accept=".csv" required>
+					<input type="button" id="plot" name="plot" value="plot">
+					<input type="button" id="calculate" name="calculate" value="calculate">
+					<label for="TPDs">TPD Start Time</label>
+					<input type="text" id="TPDs" name="TPDs" value="30">
+					<label for="TPDe">TPD End Time</label>
+					<input type="text" id="TPDe" name="TPDe" value="120">
+					<label for="Ars">Ar Start Time</label>
+					<input type="text" id="Ars" name="Ars" value="190">
+					<label for="Are">Ar End Time</label>
+					<input type="text" id="Are" name="Are" value="220">
+					<label for="wf">Water Correction</label>
+					<input type="text" id="wf" name="wf" value="0.238">
+					<label for="SM">Sample Mass</label>
+					<input type="text" id="SM" name="SM" value="0.0356">
+					<label for="RF">Response Factor</label>
+					<input type="text" id="RF" name="RF" value="46.277">
+					<label for="MA">Moles Ar</label>
+					<input type="text" id="MA" name="MA" value="1.59E-5">
+					<label for="SA">Si/Al</label>
+					<input type="text" id="SA" name="SA" value="2.55">
+					<div class='result'>
+						<p id='p0'>H+/Al</p>
+						<p id='p1'>not yet calculated</p>
+					</div>
+				</form>
+			</div>
+			<div class='column2'>
+				<div id="vis0"></div>
+				<div id="vis1"></div>
+				<div id="vis2"></div>
+				<div id="vis3"></div>
+				<div id="vis4"></div>
+			</div>
+	  	</div>
+		
+	  
+		
+	</body>
+	
 
-You said: {{ text }}
 
 <script src="{{ url_for('static', filename="js/main.js")}}"></script>
-
-<!-- <p>{{ output }}</p> -->
