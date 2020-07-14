@@ -23,14 +23,8 @@ document.getElementById("file").onchange = function () {
   res = post(formData);
 };
 
-// place in ajax request to get text to update on webpage
-/*
-
-*/
-
 function get_params() {
   var formData = new FormData();
-  formData.append('file', document.getElementById('file').files[0]);
   formData.append('TPDs',document.getElementById("TPDs").value);
   formData.append('TPDe',document.getElementById("TPDe").value);
   formData.append('Ars',document.getElementById("Ars").value);
@@ -49,7 +43,6 @@ document.getElementById("plot").onclick = function () {
   plotit = plot(parameters);
 };
 
-
 function plot(data){
   return $.ajax({
     url: "/plot",
@@ -57,6 +50,8 @@ function plot(data){
     cache: false,
     data: data,
     success: function(spec) {
+      // splitter takes the disconnects the string returned by the presence of } {. The brackets are readded in the for loop.
+      // The plots are then inserted w/ VegaEmbed
       var splitter = spec.split('} {');
       var i;
       for (i=0; i<splitter.length; i++){
@@ -104,9 +99,23 @@ function calculate(data){
   });
 }
 
+document.getElementById("change_folders").onclick = function () {
+  console.log("folder change");
+  plotit = change();
+};
 
-
-
+function change(){
+  return $.ajax({
+    url: "/change_wd",
+    type: "POST",
+    cache: false,
+    processData: false,
+    contentType: false,
+    complete: function () {
+      console.log("done")
+    }
+  });
+}
 
 /*
 //this will download the file
