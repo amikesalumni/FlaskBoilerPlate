@@ -99,23 +99,6 @@ function calculate(data){
   });
 }
 
-document.getElementById("change_folders").onclick = function () {
-  console.log("folder change");
-  plotit = change();
-};
-
-function change(){
-  return $.ajax({
-    url: "/change_wd",
-    type: "POST",
-    cache: false,
-    processData: false,
-    contentType: false,
-    complete: function () {
-      console.log("done")
-    }
-  });
-}
 
 /*
 //this will download the file

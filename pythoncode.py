@@ -1,7 +1,6 @@
 from flask import Flask, Response, render_template, request, session
 from flask_session import Session
-from tkinter import Tk
-from tkinter.filedialog import askdirectory
+
 import webbrowser
 
 import NH3TPD as NH3
@@ -14,11 +13,6 @@ SESSION_TYPE = 'filesystem'
 app.config.from_object(__name__)
 Session(app)
 
-# This first asks the user to select a working directory where their file is stored. 
-root = Tk()
-path = askdirectory(title='Select Folder')
-root.destroy()
-
 # to publish changes to github
 # git add file
 # git commit -m "describe changes you are making" .
@@ -27,15 +21,12 @@ root.destroy()
 
 @app.route('/')
 def webpage():
-    # put the chosen path in a session variable that will persist between requests, lets user change path if so desired
-    session["path"] = path
     return render_template('index.html')
 
 @app.route('/fileupload', methods=['POST'])
 def myFunc():
     # store the name of the file
-    name = request.files['file'].filename
-    session["storedfile"] = session["path"] + r'/' + name
+    session["storedfile"] = request.files['file'].filename
     return 'file uploaded'    
 
 @app.route('/plot', methods=['POST'])
@@ -64,10 +55,3 @@ def calculate():
     protons = round(NH3.CHA_H_count(mass_loaded, response_factor, moles_Ar, area_ratio, Si_Al),3)
     response = Response(str(protons), content_type='text/plain')
     return response
-
-@app.route('/change_wd', methods=['POST'])
-def change():
-    root = Tk()
-    session["path"] = askdirectory(title='Select Folder')
-    root.destroy()
-    return 'folder changed'
