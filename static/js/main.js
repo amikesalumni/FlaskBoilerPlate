@@ -1,3 +1,6 @@
+// global storage variable
+var file = 0
+
 //this function sends data to the python code
 function post(data) {
   return $.ajax({
@@ -16,7 +19,7 @@ function post(data) {
 document.getElementById("file").onchange = function () {
   console.log("file received");
   var formData = new FormData();
-  var file = document.getElementById('file').files[0];
+  file = document.getElementById('file').files[0];
   formData.append('file', file);
   fileSize = file.size / 1000000;
   console.log("file size", fileSize);
@@ -25,6 +28,7 @@ document.getElementById("file").onchange = function () {
 
 function get_params() {
   var formData = new FormData();
+  formData.append('file', file)
   formData.append('TPDs',document.getElementById("TPDs").value);
   formData.append('TPDe',document.getElementById("TPDe").value);
   formData.append('Ars',document.getElementById("Ars").value);

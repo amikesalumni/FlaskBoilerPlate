@@ -92,8 +92,7 @@ def CHA_H_count(ML, RF, MA, AR, SA):
 def Plots(result, nth):
     # This allows for data greater than 5000 rows to be plotted
     alt.data_transformers.disable_max_rows()
-
-
+    
     x, y17, y17w, y17b, y18, y40, y40b = (result[4],result[5],result[6],result[7],result[8],result[9],result[10])
     TPDsi, TPDei, Arsi, Arei = (result[14], result[15], result[16], result[17])
     wf, watstart, watend, ratio1718 = (result[18],result[11], result[12],result[13])
