@@ -36,7 +36,8 @@ def myFunc():
 @app.route('/plot', methods=['POST'])
 def plot():
     if session["storedfile"]==0:
-        return 'need to upload a file first'
+        error_message = Response('flag1', content_type='text/plain')
+        return error_message
     else:
         TPD_start_time = int(request.form["TPDs"])
         TPD_end_time = int(request.form["TPDe"])
@@ -65,6 +66,6 @@ def calculate():
         return response
 
 # comment this out for heroku build
-#if __name__ == '__main__':
-#    webbrowser.open('http://127.0.0.1:5000/', new=2)
-#    app.run()
+if __name__ == '__main__':
+    webbrowser.open('http://127.0.0.1:5000/', new=2)
+    app.run()

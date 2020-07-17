@@ -29,6 +29,7 @@ document.getElementById("file").onchange = function () {
 function get_params() {
   var formData = new FormData();
   formData.append('file', file)
+  console.log('params grabbed')
   formData.append('TPDs',document.getElementById("TPDs").value);
   formData.append('TPDe',document.getElementById("TPDe").value);
   formData.append('Ars',document.getElementById("Ars").value);
