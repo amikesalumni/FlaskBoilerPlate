@@ -1,0 +1,43 @@
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 35px 10px;
+    padding: 0;
+}
+
+input {
+display: block;
+margin: 0px 0px 15px;
+}
+label {
+display: block
+}
+.result {
+    outline-style: solid;
+    outline-width: 1px;
+    outline-color: blue;
+    outline-offset: 10px;
+}
+* {
+box-sizing: border-box;
+}
+
+.column {
+float: left;
+width: 25%;
+}
+
+.column2 {
+    float: left;
+    width: 75%
+}
+
+.row:after {
+content: "";
+display: table;
+clear: both;
+}

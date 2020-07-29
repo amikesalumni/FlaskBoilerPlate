@@ -1,5 +1,20 @@
 // global storage variable
 var file = 0
+var counter = 0 // counter to make sure the buttons are pressed in the correct order
+
+function disabler() {
+  document.getElementById("file").disabled = true;
+  document.getElementById("plot").disabled = true;
+  document.getElementById("calculate").disabled = true;
+  return
+}
+
+function enabler(){
+  document.getElementById("file").disabled = false;
+  document.getElementById("plot").disabled = false;
+  document.getElementById("calculate").disabled = false;
+  return
+}
 
 //this function sends data to the python code
 function post(data) {
@@ -11,12 +26,16 @@ function post(data) {
    contentType: false,
    complete: function () {
      console.log("done")
+     enabler();
    }
  });
 }
 
 //this function listens for a file upload and sends the data then downloads it when its done
+// change to .onclick?
 document.getElementById("file").onchange = function () {
+  disabler();
+  counter = 1;
   console.log("file received");
   var formData = new FormData();
   file = document.getElementById('file').files[0];
@@ -24,12 +43,12 @@ document.getElementById("file").onchange = function () {
   fileSize = file.size / 1000000;
   console.log("file size", fileSize);
   res = post(formData);
+  document.getElementById("flags").innerHTML = "Status: Green"
 };
 
 function get_params() {
   var formData = new FormData();
   formData.append('file', file)
-  console.log('params grabbed')
   formData.append('TPDs',document.getElementById("TPDs").value);
   formData.append('TPDe',document.getElementById("TPDe").value);
   formData.append('Ars',document.getElementById("Ars").value);
@@ -43,9 +62,16 @@ function get_params() {
 };
 
 document.getElementById("plot").onclick = function () {
-  console.log("plot fired");
-  parameters = get_params();
-  plotit = plot(parameters);
+  if (counter==0){
+    document.getElementById("flags").innerHTML = "Status: Red, upload a file first"
+  } else {
+    counter=2;
+    disabler();
+    console.log("plot fired");
+    parameters = get_params();
+    plotit = plot(parameters);
+    document.getElementById("flags").innerHTML = "Status: Green"
+  }
 };
 
 function plot(data){
@@ -76,14 +102,23 @@ function plot(data){
     contentType: false,
     complete: function () {
       console.log("done")
+      enabler();
     }
   });
 }
 
 document.getElementById("calculate").onclick = function () {
-  console.log("calculate fired");
-  parameters = get_params();
-  plotit = calculate(parameters);
+  if (counter==0){
+    document.getElementById("flags").innerHTML = "Status: Red, upload a file first"
+  } else if(counter==1){
+    document.getElementById("flags").innerHTML = "Status: Red, hit the plot button before you calculate"
+  } else{
+    disabler();
+    console.log("calculate fired");
+    parameters = get_params();
+    plotit = calculate(parameters);
+    document.getElementById("flags").innerHTML = "Status: Green"
+  }
 };
 
 function calculate(data){
@@ -100,6 +135,7 @@ function calculate(data){
     contentType: false,
     complete: function () {
       console.log("done")
+      enabler();
     }
   });
 }
