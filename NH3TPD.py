@@ -89,7 +89,7 @@ def CHA_H_count(ML, RF, MA, AR, SA):
     NH3_Al = NH3_gcat/Al_gcat # moles NH3 per mole Al, this is the proton count and is 1:1 w/ Proton per Al
     return(NH3_Al)
 
-def Plots(result, nth):
+def Plots(result, nth, w, h):
     # This allows for data greater than 5000 rows to be plotted
     alt.data_transformers.disable_max_rows()
     
@@ -132,8 +132,8 @@ def Plots(result, nth):
     ).configure_axis(
         grid=False
     ).properties(
-        width=300,
-        height=200,
+        width= w,
+        height= h,
         title='Raw Data from CSV'
     ).interactive()
 
@@ -148,8 +148,8 @@ def Plots(result, nth):
     ).configure_axis(
         grid=False    
     ).properties(
-        width = 300,
-        height=200,
+        width = w,
+        height= h,
         title='TPD: y17 Water and Baseline Correction '
     )
     
@@ -164,8 +164,8 @@ def Plots(result, nth):
     ).configure_axis(
         grid=False    
     ).properties(
-        width = 300,
-        height=200,
+        width = w,
+        height= h,
         title='Ar Pulse'
     )
     
@@ -178,8 +178,8 @@ def Plots(result, nth):
     ).configure_axis(
         grid=False    
     ).properties(
-        width = 300,
-        height=200,
+        width = w,
+        height= h,
         title='TPD as a Function of Temperature'
     )
     
@@ -193,8 +193,9 @@ def Plots(result, nth):
         ).configure_axis(
             grid=False    
         ).properties(
-            width = 300,
-            height=200
+            width = w,
+            height= h,
+            title='Water Correction Factor'
         )
     else:
         W_chart = alt.LayerChart()

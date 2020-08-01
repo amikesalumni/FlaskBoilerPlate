@@ -4,54 +4,125 @@
 	<title>NH3 TPD Analysis</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<script src="{{ url_for('static', filename="jquery/jQuery.js")}}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/style.css') }}">
 </head>
 	
 <body>
-	<div class='row'>
-		<div class='column'>
-			<form id='uploadForm'>
-				<input id='file' type="file" name="file" autocomplete="off" accept=".csv" required>
-				<input type="button" id="plot" name="plot" value="plot">
-				<input type="button" id="calculate" name="calculate" value="calculate">
-				<label for="TPDs">TPD Start Time</label>
-				<input type="text" id="TPDs" name="TPDs" value="30">
-				<label for="TPDe">TPD End Time</label>
-				<input type="text" id="TPDe" name="TPDe" value="120">
-				<label for="Ars">Ar Start Time</label>
-				<input type="text" id="Ars" name="Ars" value="190">
-				<label for="Are">Ar End Time</label>
-				<input type="text" id="Are" name="Are" value="220">
-				<label for="wf">Water Correction</label>
-				<input type="text" id="wf" name="wf" value="0.238">
-				<label for="SM">Sample Mass</label>
-				<input type="text" id="SM" name="SM" value="0.0356">
-				<label for="RF">Response Factor</label>
-				<input type="text" id="RF" name="RF" value="46.277">
-				<label for="MA">Moles Ar</label>
-				<input type="text" id="MA" name="MA" value="1.59E-5">
-				<label for="SA">Si/Al</label>
-				<input type="text" id="SA" name="SA" value="2.55">
-				<div class='result'>
-					<p id='p0'>H+/Al</p>
-					<p id='p1'>not yet calculated</p>
-				</div>
-				<div class='errors'>
-					<p id='flags'>Status: Green</p>
-				</div>
-			</form>
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-6">
+			<h2>Ammonia TPD Analysis</h2>
 		</div>
-		<div class='column2'>
-			<div id="vis0"></div>
-			<div id="vis1"></div>
-			<div id="vis2"></div>
-			<div id="vis3"></div>
-			<div id="vis4"></div>
-		</div>
+		<div class="col-md-5"></div>
 	</div>
+	<form>
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-8">
+				<div class="form-group">
+					<label for="file">Choose a File</label>
+					<input class="form-control" id='file' type="file" name="file" autocomplete="off" accept=".csv" required>
+				</div>
+			</div>
+			<div class="col-md-3"></div>
+		</div>
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-6">
+				<div class="btn-group">
+					<input class="btn btn-primary" type="button" id="plot" name="plot" value="plot" data-toggle="modal" data-target="#errmodal">
+					<input class="btn btn-primary" type="button" id="calculate" name="calculate" value="calculate" data-toggle="modal" data-target="#errmodal">
+					<div class="modal fade" id="errmodal" role="dialog">
+						<div class="modal-dialog">
+						  	<div class="modal-content">
+								<div class="modal-header">
+							  		<h4 class="modal-title">Error Message</h4>
+								</div>
+								<div class="modal-body">
+									<p id='flags'>No Errors</p>
+								</div>
+								<div class="modal-footer">
+							  		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+						  	</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-5"></div>
+		</div>
+		<div class="form-group row">
+			<div class="col-md-1"></div>
+			<div class="col-md-2">
+				<label title="Example Value: 30" for="TPDs">TPD Start Time (min)</label>
+				<input class="form-control" type="text" id="TPDs" name="TPDs" value="30">
+			</div>
+			<div class="col-md-2">
+				<label title="Example Value: 120" for="TPDe">TPD End Time (min)</label>
+				<input class="form-control" type="text" id="TPDe" name="TPDe" value="120">
+			</div>
+			<div class="col-md-2">
+				<label title="Example Value: 190" for="Ars">Ar Start Time (min)</label>
+				<input class="form-control" type="text" id="Ars" name="Ars" value="190">
+			</div>
+			<div class="col-md-2">
+				<label title="Example Value: 2200" for="Are">Ar End Time (min)</label>
+				<input class="form-control" type="text" id="Are" name="Are" value="220">
+			</div>
+			<div class="col-md-2">
+				<label title="Example Value: 0.238" for="wf">Water Correction</label>
+				<input class="form-control" type="text" id="wf" name="wf" value="0.238">
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+		<div class="form-group row">
+			<div class="col-md-1"></div>
+			<div class="col-md-2">
+				<label title="Example Value: 0.0356" for="SM">Sample Mass (grams)</label>
+				<input class="form-control" type="text" id="SM" name="SM" value="0.0356">
+			</div>
+			<div class="col-md-2">
+				<label title="Example Value: 46.277" for="RF">Response Factor</label>
+				<input class="form-control" type="text" id="RF" name="RF" value="46.277">
+			</div>
+			<div class="col-md-2">
+				<label title="Example Value: 1.59E-5" for="MA">Moles Ar</label>
+				<input class="form-control" type="text" id="MA" name="MA" value="1.59E-5">
+			</div>
+			<div class="col-md-2">
+				<label title="Example Value: 2.55" for="SA">Si/Al</label>
+				<input class="form-control" type="text" id="SA" name="SA" value="2.55">
+			</div>
+			<div class="col-md-3"></div>
+		</div>
+	</form>
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-2">
+			<h4 id='p0' class="text-center">H+/Al</h4>
+			<h5 id='p1' class="text-center">not yet calculated</h5>
+		</div>
+		<div id="vis0"></div>
+		<div id="vis1"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div id="vis2"></div>
+		<div id="vis3"></div>
+		<div id="vis4"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div id="vis4"></div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </body>
 <script src="{{ url_for('static', filename="js/main.js")}}"></script>

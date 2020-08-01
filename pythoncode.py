@@ -41,7 +41,9 @@ def plot():
     session["result"] = NH3.TPD_analyze(request.files['file'],TPD_start_time,TPD_end_time,Ar_start_time,Ar_end_time,water_fraction)
 
     nth = 20 # grab every nth point, need to add this as an input at somepoint
-    plots_return = NH3.Plots(session["result"], nth)
+    width = 300
+    height = 200
+    plots_return = NH3.Plots(session["result"], nth, width, height)
     chart_list = ('{} {} {} {} {}'.format(plots_return[0].to_json(),plots_return[1].to_json(),plots_return[2].to_json(),plots_return[3].to_json(),plots_return[4].to_json()))
     return chart_list
 
@@ -57,9 +59,10 @@ def calculate():
     return response
 
 # comment this out for heroku build
-#if __name__ == '__main__':
-#    webbrowser.open('http://127.0.0.1:5000/', new=2)
-#    app.run()
+if __name__ == '__main__':
+    webbrowser.open('http://127.0.0.1:5000/', new=2)
+    app.run()
 
 # ideas:
 # On upload, the site should list what the max time value can be to help people estimate how far out their pulse actually is
+# a results file that they could download so that they can customize plots in excel/ store analysis paramters

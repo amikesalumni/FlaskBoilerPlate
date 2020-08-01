@@ -43,7 +43,7 @@ document.getElementById("file").onchange = function () {
   fileSize = file.size / 1000000;
   console.log("file size", fileSize);
   res = post(formData);
-  document.getElementById("flags").innerHTML = "Status: Green"
+  document.getElementById("flags").innerHTML = "No Errors"
 };
 
 function get_params() {
@@ -63,14 +63,14 @@ function get_params() {
 
 document.getElementById("plot").onclick = function () {
   if (counter==0){
-    document.getElementById("flags").innerHTML = "Status: Red, upload a file first"
+    document.getElementById("flags").innerHTML = "Upload a file first"
   } else {
     counter=2;
     disabler();
     console.log("plot fired");
     parameters = get_params();
     plotit = plot(parameters);
-    document.getElementById("flags").innerHTML = "Status: Green"
+    document.getElementById("flags").innerHTML = "No Errors"
   }
 };
 
@@ -109,15 +109,15 @@ function plot(data){
 
 document.getElementById("calculate").onclick = function () {
   if (counter==0){
-    document.getElementById("flags").innerHTML = "Status: Red, upload a file first"
+    document.getElementById("flags").innerHTML = "Upload a file first"
   } else if(counter==1){
-    document.getElementById("flags").innerHTML = "Status: Red, hit the plot button before you calculate"
+    document.getElementById("flags").innerHTML = "Hit the plot button before you calculate"
   } else{
     disabler();
     console.log("calculate fired");
     parameters = get_params();
     plotit = calculate(parameters);
-    document.getElementById("flags").innerHTML = "Status: Green"
+    document.getElementById("flags").innerHTML = "No Errors"
   }
 };
 
